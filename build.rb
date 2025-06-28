@@ -4,10 +4,11 @@ require 'rbconfig'
 sarch = RbConfig::CONFIG['host_cpu']
 
 arch = case sarch
+  when "x86"     then :x86
   when "x86_64"  then :x86_64
   when "aarch64" then :aarch64
   when "i686"    then :arm
-  else          :unknown
+  else           :unknown
 end
 
 puts "Building in #{arch}"
