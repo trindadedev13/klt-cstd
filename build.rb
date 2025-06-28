@@ -1,6 +1,17 @@
 require 'fileutils'
 require 'rbconfig'
 
+def run(cmd)
+  system(cmd) or abort("Failed to run #{cmd}")
+end
+
+def help()
+  puts "Klt-CStd Buildscript"
+  puts "--run  or -r   | Run after build."
+  puts "--help or -h   | Shows helps."
+  exit 1
+end
+
 sarch = RbConfig::CONFIG['host_cpu']
 
 arch = case sarch
@@ -11,13 +22,27 @@ arch = case sarch
   else           :unknown
 end
 
+if arch == :unknown
+  puts "Unknown architeture"
+  exit(1)
+end
+
 puts "Building in #{arch}"
 
-FileUtils.mkdir_p("build")
+run = false
 
-def run(cmd)
-  system(cmd) or abort("Failed to run #{cmd}")
+if ARGV.length >= 1
+  ARGV.each do |arg|
+    case arg
+      when "-h", "--help"
+        help()
+      when "-r", "--run"
+        run = true
+    end
+  end
 end
+
+FileUtils.mkdir_p("build")
 
 NO_STD_ARGS = "-nostdlib -nodefaultlibs"
 
@@ -31,9 +56,11 @@ out_files = Dir.glob("build/*.o").join(" ")
 run("gcc #{NO_STD_ARGS} -nostartfiles -Iinclude/ src/main.c #{out_files}")
 FileUtils.mv("a.out", "build/main")
 
-out_dir = ENV["HOME"] + "/temp/kltstd"
+if run
+  out_dir = ENV["HOME"] + "/temp/kltstd"
 
-FileUtils.mkdir_p(out_dir)
-FileUtils.cp("build/main", "#{out_dir}/main");
-run("chmod +x #{out_dir}/main")
-run("#{out_dir}/main")
+  FileUtils.mkdir_p(out_dir)
+  FileUtils.cp("build/main", "#{out_dir}/main");
+  run("chmod +x #{out_dir}/main")
+  run("#{out_dir}/main")
+end
