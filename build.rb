@@ -12,6 +12,12 @@ def help()
   exit 1
 end
 
+def del_byvalue(array, expected)
+  array.delete_if do |value|
+    value == expected
+  end
+end
+
 arch = case RbConfig::CONFIG['host_cpu']
   when "x86"     then :x86
   when "x86_64"  then :x86_64
@@ -53,8 +59,6 @@ if ARGV.length >= 1
         help()
       when "-r", "--run"
         run = true
-      when "-as", "--asan"
-        cbuild_args.push("-fsanitize=address")
     end
   end
 end
