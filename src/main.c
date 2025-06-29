@@ -2,6 +2,7 @@
 #include "types.h"
 
 void _start() {
-  print("Opa\n");
+  string name = "Aquiles";
+  printf("My name is %s", name);
   exit(0);
 }

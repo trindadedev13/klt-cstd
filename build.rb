@@ -14,6 +14,8 @@ end
 
 sarch = RbConfig::CONFIG['host_cpu']
 
+gcc_sub_args = []
+
 arch = case sarch
   when "x86"     then :x86
   when "x86_64"  then :x86_64
@@ -38,12 +40,15 @@ if ARGV.length >= 1
         help()
       when "-r", "--run"
         run = true
+      when "-as", "--asan"
+        gcc_sub_args.push("-fsanitize=address")
     end
   end
 end
 
 FileUtils.mkdir_p("build")
 
+FNO = "-fno-builtin-exit -fno-builtin-printf"
 BASE_C_ARGS = "-std=c89 -nostdlib -nodefaultlibs"
 
 asm_files = Dir.glob("src/asm/#{arch}/*.s")
@@ -55,7 +60,8 @@ end
 c_srcs = Dir.glob("src/*.c").join(" ")
 out_files = Dir.glob("build/*.o").join(" ")
 
-run("gcc #{BASE_C_ARGS} -fno-builtin-exit -nostartfiles -Iinclude/ #{c_srcs} #{out_files}")
+gcc_sub_args_str = gcc_sub_args.join(" ")
+run("gcc #{gcc_sub_args_str} #{BASE_C_ARGS} #{FNO} -nostartfiles -Iinclude/ #{c_srcs} #{out_files}")
 FileUtils.mv("a.out", "build/main")
 
 if run
