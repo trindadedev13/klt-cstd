@@ -1,6 +1,9 @@
 #ifndef __VA_ARGS__
 #define __VA_ARGS__
 
+// va list is implemented by compiler
+// so we dont have to implement it
+
 #ifndef __GNUC_VA_LIST
 #define __GNUC_VA_LIST
 typedef __builtin_va_list __gnuc_va_list;
