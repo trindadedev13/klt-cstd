@@ -34,7 +34,7 @@ asmbuild_args = [
 ]
 
 cbuild_args = [
-  "-std=c89",
+  "-std=c99",
   "-nostdlib",
   "-nostartfiles",
   "-nodefaultlibs",
