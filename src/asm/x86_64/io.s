@@ -1,14 +1,35 @@
 .section .text
     .global __ASM_WRITE__
     .global __ASM_EXIT__
+    .global __ASM_OPENAT__
+    .global __ASM_READ__
+    .global __ASM_CLOSE__
 
 # void __ASM_WRITE__(int fd, const void *buf, size_t len)
 __ASM_WRITE__:
-    mov     $1, %rax       # syscall number for write
+    movq    $1, %rax       # syscall number for write
     syscall                # perform syscall
     ret                    # return to caller
 
 # void __ASM_EXIT__ exit(int status)
 __ASM_EXIT__:
-    mov     $60, %rax      # syscall number for exit
+    movq     $60, %rax      # syscall number for exit
     syscall                # perform syscall
+
+# int __ASM_OPENAT__(int dirfd, const char* filename, int flags, int mode)
+__ASM_OPENAT__:
+    movq    $257, %rax  # openat syscall
+    syscall
+    ret
+
+# size_t __ASM_READ__(int fd, void* dest, size_t count)
+__ASM_READ__:
+    movq   $0, %rax  # read syscall
+    syscall
+    ret
+
+# void __ASM_CLOSE__(int fd)
+__ASM_CLOSE__:
+    movq   $3, %rax  # close syscall
+    syscall
+    ret
