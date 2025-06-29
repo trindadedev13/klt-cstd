@@ -18,6 +18,34 @@ int main() {
 
   memory_free(me);
 
+  // str_len(src)
+  printf("ola size: %d\n", str_len("Ola"));
+
+  // str_copy_lmt(src, dest, lmt)
+  string cc = "gcc";
+  size_t tt = str_len(cc) + 1;
+  string cp = memory_alloc(tt);
+  str_copy_lmt(cp, cc, 2);
+  
+  printf("%s\n", cp);
+
+  // str_cat(src, new)
+  string text_a = "Hello, ";
+  string text_b = "World!";
+  string text = memory_alloc(str_len(text_a) + str_len(text_b));
+  str_cat(text, text_a);
+  str_cat(text, text_b);
+  printf("%s\n", text);
+
+  // str_equals(src, compare)
+  bool ba = str_equals(text_a, "Hello, ");
+  printf("text_a Equals \"Hello, \" ? : %s\n", ba ? "true" : "false");
+
+  bool bb = str_equals(text_b, "Hello, ");
+  printf("text_b Equals \"Hello, \" ? : %s\n", bb ? "true" : "false");
+
+  memory_free(text);
+
   return 0;
 }
 

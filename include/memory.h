@@ -29,25 +29,16 @@ void* __memoryp_alloc__(memoryp_manager* mgr, size_t size);
 void  __memoryp_free__ (memoryp_manager* mgr, void* ptr);
 
 // Real Heap Allocation with Syscalls ASM
-
 typedef struct {
   size_t size;
 } memory_block_header;
 
 extern void* __ASM_MEMORY_ALLOC__(size_t size);
-extern void __ASM_MEMORY_FREE__(void* ptr, size_t size);
+extern void  __ASM_MEMORY_FREE__(void* ptr, size_t size);
 
-static void* memory_alloc(size_t size) {
-  void* real_ptr = __ASM_MEMORY_ALLOC__(size + sizeof(memory_block_header));
-  memory_block_header* header = (memory_block_header*) real_ptr;
-  header->size = size;
-  return (void*)(header + 1);
-}
-
-static void memory_free(void* ptr) {
-  memory_block_header* header = ((memory_block_header*)ptr) - 1;
-  size_t size = header->size;
-  __ASM_MEMORY_FREE__((void*)header, size + sizeof(memory_block_header));
-}
-
+void* memory_alloc(size_t size);
+void  memory_free(void* ptr);
+void* memory_move(void* dest, const void* src, size_t len);
+void* memory_copy(void* dest, const void* src, size_t len);
+void* memory_set (void* dest, byte new, size_t len);
 #endif
