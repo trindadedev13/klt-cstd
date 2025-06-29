@@ -1,7 +1,7 @@
-#include "core.h"
 #include "io.h"
+#include "types.h"
 
 void _start() {
-  PRINT("Opa\n");
-  EXIT(0);
+  print("Opa\n");
+  exit(0);
 }

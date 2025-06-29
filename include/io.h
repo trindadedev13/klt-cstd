@@ -1,36 +1,25 @@
 #ifndef __IO_H__
 #define __IO_H__
 
-#include "core.h"
-#include "extern.h"
 #include "string.h"
+#include "types.h"
 
-TYPEDEF STRUCT {
-  INT fd;
-} FILE;
+typedef struct {
+  int fd;
+} file;
 
-CONST FILE STD_FDS[] = {
-    { .fd = 0 },
-    { .fd = 1 },
-    { .fd = 2 }
-};
+extern file std_files[];
 
-#define STDIN  (&STD_FDS[0])
-#define STDOUT (&STD_FDS[1])
-#define STDERR (&STD_FDS[2])
+#define stdin  (&std_files[0])
+#define stdout (&std_files[1])
+#define stderr (&std_files[2])
 
-STATIC VOID WRITE(CONST FILE* file, CONST BUFFER buffer, SIZE_T len) {
-  INT fd = file->fd;
-  __ASM_WRITE__(fd, buffer, len);
-}
+// ASM
+extern long __ASM_WRITE__(int fd, const buffer buffer, size_t len);
+extern long __ASM_EXIT__(long status);
 
-STATIC VOID PRINT(CONST STRING str) {
-  CONST SIZE_T len = STRING_LENGTH(str);
-  WRITE(STDOUT, str, len);
-}
-
-STATIC VOID EXIT(LONG exit_code) {
-  __ASM_EXIT__(exit_code);
-}
+void write(const file* f, const buffer buf, size_t len);
+void print(const string str);
+void exit(long exit_code);
 
 #endif

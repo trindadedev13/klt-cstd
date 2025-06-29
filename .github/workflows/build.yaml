@@ -1,0 +1,29 @@
+name: Build multi-arch
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        arch: [arm, arm64, x86, x86_64]
+    env:
+      ARCH: ${{ matrix.arch }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies for $ARCH"
+          sudo apt update
+          sudo apt install ruby-full gcc-multilib gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi
+
+      - name: Run build.rb with cross-arch
+        run: |
+          echo "Running Ruby build for $ARCH"
+          ruby build.rb --arch=$ARCH

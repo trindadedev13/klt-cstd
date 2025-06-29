@@ -1,14 +1,10 @@
 #ifndef __STRING_H__
 #define __STRING_H__
 
-#include "core.h"
+#include "types.h"
 
-STATIC SIZE_T STRING_LENGTH(CONST STRING str) {
-  SIZE_T len = 0;
-  WHILE (str[len] != STRING_END) {
-    len++;
-  }
-  RETURN len;
-}
+#define NULL_TERMINATOR '\0'
+
+size_t str_len(const string str);
 
 #endif
