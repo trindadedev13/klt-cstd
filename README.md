@@ -5,8 +5,7 @@
 ## Build
 ### 1. Run buildscript
 ```bash
-ruby build.rb # use -h to see all build options
+ruby build.rb --install # use -h to see all build options
 ```
 ### 2. Done
-- For now this project is not a library, it is just a CLI project.
 - The script will automatically figure out your architecture and build the correct files.
