@@ -15,10 +15,13 @@ end
 def install_kstd()
   prefix = ENV["PREFIX"]
   FileUtils.cp("build/libkcstd.a", "#{prefix}/lib/libkcstd.a")
+  puts "Installing #{prefix}/lib/libkcstd.a"
   FileUtils.mkdir_p("#{prefix}/include/kcstd")
   Dir.glob("include/kcstd/*").each do |header|
     header_filename = header.split("/").last
-    FileUtils.cp_r(header, "#{prefix}/include/kcstd/#{header_filename}")
+    out_dir = "#{prefix}/include/kcstd/#{header_filename}"
+    puts "Installing #{out_dir}"
+    FileUtils.cp_r(header, out_dir)
   end
 end
 
