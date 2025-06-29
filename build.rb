@@ -12,11 +12,7 @@ def help()
   exit 1
 end
 
-sarch = RbConfig::CONFIG['host_cpu']
-
-gcc_sub_args = []
-
-arch = case sarch
+arch = case RbConfig::CONFIG['host_cpu']
   when "x86"     then :x86
   when "x86_64"  then :x86_64
   when "aarch64" then :aarch64
@@ -31,6 +27,23 @@ end
 
 puts "Building in #{arch}"
 
+asmbuild_args = [
+  "-nostdlib",
+  "-nodefaultlibs",
+  "-c -fPIC"
+]
+
+cbuild_args = [
+  "-std=c89",
+  "-nostdlib",
+  "-nostartfiles",
+  "-nodefaultlibs",
+  "-fno-builtin",
+  "-ffreestanding",
+  "-static",
+  "-Iinclude/"
+]
+
 run = false
 
 if ARGV.length >= 1
@@ -41,28 +54,28 @@ if ARGV.length >= 1
       when "-r", "--run"
         run = true
       when "-as", "--asan"
-        gcc_sub_args.push("-fsanitize=address")
+        cbuild_args.push("-fsanitize=address")
     end
   end
 end
 
 FileUtils.mkdir_p("build")
 
-FNO = "-fno-builtin-exit -fno-builtin-printf"
-BASE_C_ARGS = "-std=c89 -nostdlib -nodefaultlibs"
-
 asm_files = Dir.glob("src/asm/#{arch}/*.s")
 asm_files.each do |asm_file|
   out_filename = asm_file.split("/").last.sub(".s", ".o")
-  run("gcc #{BASE_C_ARGS} -c -fPIC #{asm_file} -o build/#{out_filename}")
+  asmbuild_args_str = asmbuild_args.join(" ")
+  run("gcc #{asmbuild_args_str} #{asm_file} -o build/#{out_filename}")
 end
 
 c_srcs = Dir.glob("src/*.c").join(" ")
 out_files = Dir.glob("build/*.o").join(" ")
 
-gcc_sub_args_str = gcc_sub_args.join(" ")
-run("gcc #{gcc_sub_args_str} #{BASE_C_ARGS} #{FNO} -nostartfiles -Iinclude/ #{c_srcs} #{out_files}")
-FileUtils.mv("a.out", "build/main")
+cbuild_args_str = cbuild_args.join(" ")
+run("gcc  #{cbuild_args_str} #{c_srcs} #{out_files}")
+if File.exist?("a.out")
+  FileUtils.mv("a.out", "build/main")
+end
 
 if run
   out_dir = ENV["HOME"] + "/temp/kltstd"
