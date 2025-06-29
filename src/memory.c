@@ -9,7 +9,32 @@ void* memory_alloc(size_t size) {
   return (void*)(header + 1);
 }
 
+void* memory_realloc(void* ptr, size_t new_size) {
+  if (!ptr)
+    return memory_alloc(new_size);
+
+  if (new_size == 0) {
+    memory_free(ptr);
+    return null;
+  }
+
+  memory_block_header* old_header = ((memory_block_header*)ptr) - 1;
+  size_t old_size = old_header->size;
+
+  void* new_ptr = memory_alloc(new_size);
+  if (!new_ptr)
+    return null;
+
+  size_t copy_size = old_size < new_size ? old_size : new_size;
+  memory_copy(new_ptr, ptr, copy_size);
+  memory_free(ptr);
+
+  return new_ptr;
+}
+
 void memory_free(void* ptr) {
+  if (!ptr)
+    return;
   memory_block_header* header = ((memory_block_header*)ptr) - 1;
   size_t size = header->size;
   __ASM_MEMORY_FREE__((void*)header, size + sizeof(memory_block_header));

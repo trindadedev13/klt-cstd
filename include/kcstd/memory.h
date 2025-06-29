@@ -53,6 +53,8 @@ extern void __ASM_MEMORY_FREE__(void* ptr, size_t size);
 
 // Allocates a memory pointer.
 void* memory_alloc(size_t size);
+// Reallocates a memory pointer
+void* memory_realloc(void* ptr, size_t new_size);
 // Free's a memory pointer.
 void memory_free(void* ptr);
 // Moves a memory pointer.

@@ -13,6 +13,7 @@
 
 // Memory
 #define malloc(size) memory_alloc(size)
+#define realloc(ptr, new_size) memory_realloc(ptr, new_size)
 #define free(ptr) memory_free(ptr)
 #define memmove(dest, src, size) memory_move(dest, src, size)
 #define memcpy(dest, src, size) memory_copy(dest, src, size)
