@@ -44,16 +44,18 @@ end
 
 FileUtils.mkdir_p("build")
 
-NO_STD_ARGS = "-nostdlib -nodefaultlibs"
+BASE_C_ARGS = "-std=c89 -nostdlib -nodefaultlibs"
 
-asm_files = Dir.glob("src/asm/#{arch}/**")
+asm_files = Dir.glob("src/asm/#{arch}/*.s")
 asm_files.each do |asm_file|
   out_filename = asm_file.split("/").last.sub(".s", ".o")
-  run("gcc #{NO_STD_ARGS} -c -fPIC #{asm_file} -o build/#{out_filename}")
+  run("gcc #{BASE_C_ARGS} -c -fPIC #{asm_file} -o build/#{out_filename}")
 end
 
+c_srcs = Dir.glob("src/*.c").join(" ")
 out_files = Dir.glob("build/*.o").join(" ")
-run("gcc #{NO_STD_ARGS} -nostartfiles -Iinclude/ src/main.c #{out_files}")
+
+run("gcc #{BASE_C_ARGS} -fno-builtin-exit -nostartfiles -Iinclude/ #{c_srcs} #{out_files}")
 FileUtils.mv("a.out", "build/main")
 
 if run
