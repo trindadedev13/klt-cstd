@@ -1,6 +1,10 @@
 #ifndef __CSTD_H_
 #define __CSTD_H_
 
+#include "kcstd/io.h"
+#include "kcstd/memory.h"
+#include "kcstd/string.h"
+
 // Macros for who likes c names
 
 // IO

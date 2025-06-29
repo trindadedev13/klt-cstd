@@ -1,7 +1,7 @@
 #ifndef __MEMORY_H__
 #define __MEMORY_H__
 
-#include "types.h"
+#include "kcstd/types.h"
 
 // Memory Pool
 // Simulates a Heap.

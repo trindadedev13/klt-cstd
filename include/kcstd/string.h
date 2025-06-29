@@ -1,7 +1,7 @@
 #ifndef __STRING_H__
 #define __STRING_H__
 
-#include "types.h"
+#include "kcstd/types.h"
 
 #define NULL_TERMINATOR '\0'
 

@@ -1,6 +1,6 @@
-#include "io.h"
-#include "memory.h"
-#include "types.h"
+#include "kcstd/io.h"
+#include "kcstd/memory.h"
+#include "kcstd/types.h"
 
 memoryp_manager default_mem_mgr;
 

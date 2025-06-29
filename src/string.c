@@ -1,6 +1,6 @@
-#include "string.h"
+#include "kcstd/string.h"
 
-#include "types.h"
+#include "kcstd/types.h"
 
 size_t str_len(const string str) {
   size_t len = 0;

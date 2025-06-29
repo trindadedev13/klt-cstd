@@ -1,7 +1,7 @@
-#include "io.h"
-#include "string.h"
-#include "types.h"
-#include "va_args.h"
+#include "kcstd/io.h"
+#include "kcstd/string.h"
+#include "kcstd/types.h"
+#include "kcstd/va_args.h"
 
 void put_char(char c) {
   write(stdout, &c, 1);

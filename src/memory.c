@@ -1,6 +1,6 @@
-#include "memory.h"
+#include "kcstd/memory.h"
 
-#include "types.h"
+#include "kcstd/types.h"
 
 void* memory_alloc(size_t size) {
   void* real_ptr = __ASM_MEMORY_ALLOC__(size + sizeof(memory_block_header));

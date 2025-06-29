@@ -1,7 +1,7 @@
-#include "io.h"
+#include "kcstd/io.h"
 
-#include "string.h"
-#include "types.h"
+#include "kcstd/string.h"
+#include "kcstd/types.h"
 
 file std_files[] = {
     (file){.fd = 0},  // stdin

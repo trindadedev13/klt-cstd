@@ -1,8 +1,8 @@
 #ifndef __IO_H__
 #define __IO_H__
 
-#include "string.h"
-#include "types.h"
+#include "kcstd/string.h"
+#include "kcstd/types.h"
 
 typedef struct {
   int fd;
