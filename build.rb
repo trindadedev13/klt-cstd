@@ -12,9 +12,13 @@ def help()
   exit 1
 end
 
-def del_byvalue(array, expected)
-  array.delete_if do |value|
-    value == expected
+def install_kstd()
+  prefix = ENV["PREFIX"]
+  FileUtils.cp("build/libkcstd.a", "#{prefix}/lib/libkcstd.a")
+  FileUtils.mkdir_p("#{prefix}/include/kcstd")
+  Dir.glob("include/kcstd/*").each do |header|
+    header_filename = header.split("/").last
+    FileUtils.cp_r(header, "#{prefix}/include/kcstd/#{header_filename}")
   end
 end
 
@@ -51,6 +55,7 @@ cbuild_args = [
 ]
 
 run = false
+install = false
 
 if ARGV.length >= 1
   ARGV.each do |arg|
@@ -59,6 +64,8 @@ if ARGV.length >= 1
         help()
       when "-r", "--run"
         run = true
+      when "-i", "--install"
+        install = true
     end
   end
 end
@@ -81,11 +88,16 @@ if File.exist?("a.out")
   FileUtils.mv("a.out", "build/main")
 end
 
-if run
-  out_dir = ENV["HOME"] + "/temp/kltstd"
+if install
+  run("ar rcs build/libkcstd.a #{out_files}")
+  install_kstd()
+else
+  if run
+    out_dir = ENV["HOME"] + "/temp/kltstd"
 
-  FileUtils.mkdir_p(out_dir)
-  FileUtils.cp("build/main", "#{out_dir}/main");
-  run("chmod +x #{out_dir}/main")
-  run("#{out_dir}/main")
+    FileUtils.mkdir_p(out_dir)
+    FileUtils.cp("build/main", "#{out_dir}/main");
+    run("chmod +x #{out_dir}/main")
+    run("#{out_dir}/main")
+  end
 end
