@@ -1,6 +1,5 @@
-#include "memory.h"
-
 #include "io.h"
+#include "memory.h"
 #include "types.h"
 
 memoryp_manager default_mem_mgr;
@@ -27,11 +26,13 @@ void __memoryp_init__(memoryp_manager* mgr) {
 void* __memoryp_alloc__(memoryp_manager* mgr, size_t size) {
   memoryp_block* block = mgr->free_blocks;
   memoryp_block* previus = null;
-  size = (size + sizeof(memoryp_block) - 1) / sizeof(memoryp_block) * sizeof(memoryp_block);
+  size = (size + sizeof(memoryp_block) - 1) / sizeof(memoryp_block) *
+         sizeof(memoryp_block);
   while (block) {
     if (!block->used && block->size >= size) {
       if (block->size > size + sizeof(memoryp_block)) {
-        memoryp_block* new_block = (memoryp_block*)((byte*)block + sizeof(memoryp_block) + size);
+        memoryp_block* new_block =
+            (memoryp_block*)((byte*)block + sizeof(memoryp_block) + size);
         new_block->size = block->size - size - sizeof(memoryp_block);
         new_block->used = false;
         new_block->next = block->next;
@@ -49,18 +50,21 @@ void* __memoryp_alloc__(memoryp_manager* mgr, size_t size) {
 }
 
 void __memoryp_free__(memoryp_manager* mgr, void* ptr) {
-  if (ptr == null) return;
+  if (ptr == null)
+    return;
   memoryp_block* block = (memoryp_block*)((byte*)ptr - sizeof(memoryp_block));
   block->used = false;
 
   memoryp_block* current = mgr->free_blocks;
   while (current) {
-    if (((byte*)current + sizeof(memoryp_block) + current->size) == (byte*)block) {
+    if (((byte*)current + sizeof(memoryp_block) + current->size) ==
+        (byte*)block) {
       current->size += sizeof(memoryp_block) + block->size;
       current->next = block->next;
       return;
     }
-    if (((byte*)block + sizeof(memoryp_block) + block->size) == (byte*)current) {
+    if (((byte*)block + sizeof(memoryp_block) + block->size) ==
+        (byte*)current) {
       block->size += sizeof(memoryp_block) + current->size;
       block->next = current->next;
       if (mgr->free_blocks == current) {

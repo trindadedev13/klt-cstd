@@ -9,7 +9,7 @@ struct people {
 int main() {
   struct people* me = memory_alloc(sizeof(struct people));
   if (me == null) {
-    printf ("Failed to allocate memory for 'struct people me'\n");
+    printf("Failed to allocate memory for 'struct people me'\n");
     return 1;
   }
   me->name = "Aquiles Trindade";
@@ -26,7 +26,7 @@ int main() {
   size_t tt = str_len(cc) + 1;
   string cp = memory_alloc(tt);
   str_copy_lmt(cp, cc, 2);
-  
+
   printf("%s\n", cp);
 
   // str_cat(src, new)

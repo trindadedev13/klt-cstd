@@ -1,10 +1,11 @@
 #include "io.h"
-
 #include "string.h"
 #include "types.h"
 #include "va_args.h"
 
-void put_char(char c) { write(stdout, &c, 1); }
+void put_char(char c) {
+  write(stdout, &c, 1);
+}
 
 void put_str(string s) {
   while (*s)

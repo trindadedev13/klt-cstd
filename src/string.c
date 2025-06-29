@@ -37,7 +37,7 @@ bool str_equals(string a, string b) {
 
 string str_cat(string src, string new) {
   string ptr = src;
-  while (*ptr != NULL_TERMINATOR){
+  while (*ptr != NULL_TERMINATOR) {
     ptr++;
   }
   while (*new != NULL_TERMINATOR) {

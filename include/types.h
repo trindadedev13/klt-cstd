@@ -11,12 +11,12 @@ typedef unsigned char bool;
 #define true 1
 #define false 0
 
-#define NULL ((void *)0)
+#define NULL ((void*)0)
 #define null NULL
 
-typedef char *string;
+typedef char* string;
 
-typedef void *buffer;
+typedef void* buffer;
 
 #if defined(__x86_64__) || defined(_M_X64)
 typedef unsigned long size_t;

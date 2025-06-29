@@ -1,9 +1,10 @@
 #include "memory.h"
+
 #include "types.h"
 
 void* memory_alloc(size_t size) {
   void* real_ptr = __ASM_MEMORY_ALLOC__(size + sizeof(memory_block_header));
-  memory_block_header* header = (memory_block_header*) real_ptr;
+  memory_block_header* header = (memory_block_header*)real_ptr;
   header->size = size;
   return (void*)(header + 1);
 }
@@ -19,11 +20,11 @@ void* memory_move(void* dest, const void* src, size_t size) {
   byte* d = dest;
   if (d < s) {
     for (size_t i = 0; i < size; i++) {
-      d[i] = s[i]; // copy byte in s[i] to d[i]
+      d[i] = s[i];  // copy byte in s[i] to d[i]
     }
   } else {
     for (size_t i = size; i > 0; i--) {
-      d[i - 1] = s[i - 1]; // copy byte in s[i-1] to d[i-1]
+      d[i - 1] = s[i - 1];  // copy byte in s[i-1] to d[i-1]
     }
   }
   return dest;
@@ -33,9 +34,9 @@ void* memory_copy(void* dest, const void* src, size_t size) {
   const byte* s = src;
   byte* d = dest;
   while (size--) {
-    *d = *s; // copy origin byte to dest
-    d++;     // advance dest pointer
-    s++;     // advance origin pointer
+    *d = *s;  // copy origin byte to dest
+    d++;      // advance dest pointer
+    s++;      // advance origin pointer
   }
   return dest;
 }

@@ -19,7 +19,7 @@ extern long __ASM_WRITE__(int fd, const buffer buffer, size_t len);
 extern long __ASM_EXIT__(long status);
 
 // Writes a content(buffer) to a file
-void write(const file *f, const buffer buf, size_t len);
+void write(const file* f, const buffer buf, size_t len);
 
 // Finishes the program
 void exit(long exit_code);
