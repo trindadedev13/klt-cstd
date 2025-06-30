@@ -4,6 +4,8 @@
     .global __ASM_OPENAT__
     .global __ASM_READ__
     .global __ASM_CLOSE__
+    .global __ASM_NMAP__
+    .global __ASM_MUNMAP__
 
 # void __ASM_WRITE__(int fd, const void *buf, size_t len)
 __ASM_WRITE__:
@@ -31,5 +33,17 @@ __ASM_READ__:
 # void __ASM_CLOSE__(int fd)
 __ASM_CLOSE__:
     movq   $3, %rax  # close syscall
+    syscall
+    ret
+
+# void* __ASM_NMAP__(void *addr, size_t length, int prot, int flags, int fd, off_t offset)
+__ASM_NMAP__:
+    movq     $9, %rax           # syscall number for mmap
+    syscall
+    ret
+
+# void __ASM_MUNMAP__(void* ptr, size_t size)
+__ASM_MUNMAP__:
+    movq     $11, %rax          # syscall number for munmap
     syscall
     ret

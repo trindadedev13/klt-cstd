@@ -11,6 +11,12 @@
 #define POOL_SIZE 0x100000  // 1mb
 #endif
 
+#define PROT_READ 0x1
+#define PROT_WRITE 0x2
+
+#define MAP_PRIVATE 0x02
+#define MAP_ANONYMOUS 0x20
+
 typedef struct memoryp_block memoryp_block;
 
 // Block in the memory
@@ -46,10 +52,6 @@ void __memoryp_free__(memoryp_manager* mgr, void* ptr);
 typedef struct {
   size_t size;
 } memory_block_header;
-
-// Asm functions
-extern void* __ASM_MEMORY_ALLOC__(size_t size);
-extern void __ASM_MEMORY_FREE__(void* ptr, size_t size);
 
 // Allocates a memory pointer.
 void* memory_alloc(size_t size);

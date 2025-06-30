@@ -2,6 +2,7 @@
 #define __IO_H__
 
 #include "kcstd/string.h"
+#include "kcstd/syscalls.h"
 #include "kcstd/types.h"
 
 typedef struct {
@@ -25,13 +26,6 @@ typedef char file_open_mode;
 #define O_CREAT   0100    // 0x40
 #define O_WRONLY  0001    // 0x1
 #define O_TRUNC   01000   // 0x200
-
-// ASM
-extern size_t __ASM_WRITE__(int fd, const void* buffer, size_t len);
-extern size_t __ASM_READ__(int fd, const void* dest, size_t count);
-extern void __ASM_EXIT__(long status);
-extern int __ASM_OPENAT__(int dirfd, const char* filename, int flags, int mode);
-extern void __ASM_CLOSE__(int fd);
 
 // Writes a content(buffer) to a file
 size_t write(const file* f, const void* buf, size_t len);
