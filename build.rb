@@ -6,7 +6,7 @@ def run(cmd)
 end
 
 def help()
-  puts "Klt-CStd Buildscript"
+  puts "KCStd Buildscript"
   puts "--run  or -r   | Run after build."
   puts "--help or -h   | Shows helps."
   exit 1
