@@ -1,4 +1,4 @@
-# Kilate-CStd
+# KCStd
 - Just my implementation of the C Standard Library, this project is mainly for my learning.
 ## Attention
 - I cannot guarantee that there will always be implementations for all architectures, my device is AARCH64.
